@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" integrity="sha512-D1liES3uvDpPrgk7vXR/hR/sukGn7EtDWEyvpdLsyalQYq6v6YUsTUJmku7B4rcuQ21rf0UTksw2i/2Pdjbd3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/bootstrap-icons.svg"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-3.2.6.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css"
+              integrity="sha512-O03ntXoVqaGUTAeAmvQ2YSzkCvclZEcPQu1eqloPaHfJ5RuNGiS4l+3duaidD801P50J28EHyonCV06CUlTSag=="
+              crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.css"
+              integrity="sha512-DIW4FkYTOxjCqRt7oS9BFO+nVOwDL4bzukDyDtMO7crjUZhwpyrWBFroq+IqRe6VnJkTpRAS6nhDvf0w+wHmxg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+        <title>Dtv Colombia</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .tabulator .tabulator-header {
+                position: relative;
+                box-sizing: border-box;
+                width: 100%;
+                border-bottom: 1px solid #999;
+                
+                background-color: #e6e6e6;
+                color: #fff;
+                font-weight: 700;
+                white-space: nowrap;
+                overflow: hidden;
+
+            }
+
+            @media (hover: hover) and (pointer:fine) {
+                .tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element:hover {
+                    cursor:pointer;
+                    background-color: #446398c7
+                }
+            }
+            .tabulator .tabulator-footer {
+                border-top: 1px solid #999;
+                background-color: #1089ff;
+                color: #555;
+                font-weight: 700;
+                white-space: nowrap;
+
+            }
+            .tabulator .tabulator-footer {
+                border-top: 1px solid #999;
+                background-color: #1089ff;
+                color: #fff;
+                font-weight: 700;
+                white-space: nowrap;
+            }
+            .tabulator .tabulator-footer .tabulator-page {
+                display: inline-block;
+                margin: 0 2px;
+                padding: 2px 5px;
+                border: 1px solid #aaa;
+                border-radius: 3px;
+                background: #fff;
+            }
+
+            .tabulator .tabulator-header .tabulator-col {
+                display: inline-flex;
+                /* position: relative; */
+                box-sizing: border-box;
+                flex-direction: column;
+                justify-content: flex-start;
+                /* border-right: 1px solid #aaa; */
+                background: #1089ff;
+                text-align: left;
+                vertical-align: bottom;
+                overflow: hidden;
+            }
+            #dtvColtable {
+                width: 95vw !important;
+                height: 80vh !important;
+                
+                border-radius: 5px;
+            }
+
+            .divfilters {
+                width: 95vw !important;
+                height: 10vh !important;
+            }
+
+            body {
+                width: 100vw !important;
+                height: 100vh !important;
+                overflow-x: hidden !important;
+                overflow-y: hidden !important;
+            }
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+              integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
+              crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+    </head>
+
+    <body>
+        <div class="mx-auto ">
+            <div class="col-12">
+                <!-- Contenedor del título y del select con botones -->
+                <div class="d-flex justify-content-between align-items-center border p-4 shadow">
+                    <!-- Título -->
+                    <h2 class="text-uppercase">DTV Col</h2>
+                    <!-- Select -->
+                    <select id="mySelect2" class="form-select mx-2" style="width: 30%;">
+                        <!-- Opciones del select -->
+                    </select>
+                    <!-- Botón de guardar info seleccionada -->
+                    <button type="button" onclick="guardarInfo()" class="btn btn-success"><i class="bi bi-floppy"></i>
+                        Guardar info seleccionada</button>  
+                    <form action="/salir" method="POST">
+                    
+                    <input type="submit" class="fadeIn fourth" value="Cerrar session">
+                </form>
+                </div>
+            </div>
+
+        </div>
+        <div id="dtvColtable" class="mx-auto mt-3"></div>
+
+
+        <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.js"
+                integrity="sha512-OmBbzhZ6lgh87tQFDVBHtwfi6MS9raGmNvUNTjDIBb/cgv707v9OuBVpsN6tVVTLOehRFns+o14Nd0/If0lE/A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-aio-3.2.6.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"
+                integrity="sha512-RtZU3AyMVArmHLiW0suEZ9McadTdegwbgtiQl5Qqo9kunkVg1ofwueXD8/8wv3Af8jkME3DDe3yLfR8HSJfT2g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+
+
+
+                        var table = new Tabulator("#dtvColtable", {
+                            ajaxURL: "/dtvcoldata",
+                            selectable: true,
+                            addRowPos: "top", //when adding a new row, add it to the top of the table
+                            history: true, //allow undo and redo actions on the table
+                            pagination: "local", //paginate the data
+                            paginationSize: 20,
+                            scrollHorizontal: "scroll",
+                            scrollVertical: "scroll", //allow 7 rows per page of data
+                            paginationCounter: "rows", //display count of paginated rows in footer
+                            movableColumns: true,
+
+                            columns: [
+                                {title: "Ibs", field: "ibs", editor: "input", frozen: true, headerFilter: 'input'},
+                                {title: "id_bitrix", field: "id_bitrix", headerFilter: 'input', frozen: true},
+                                {title: "etapa_id", field: "etapa_id", headerFilter: 'input', formatter: 'html'},
+                                {title: "aliado_id", field: "aliado_id", editor: "input", headerFilter: 'input'},
+                                {title: "contacto_id", field: "contacto_id", editor: "input", headerFilter: 'input'},
+                                {title: "asignado", field: "asignado", editor: "input", headerFilter: 'input'},
+                                {title: "fecha_creacion", field: "fecha_creacion", editor: "input", headerFilter: 'input'},
+                                {title: "regional", field: "regional", editor: "input", headerFilter: 'input'},
+                                {title: "canal", field: "canal", editor: "input", headerFilter: 'input'},
+                                {title: "asesor_comercial", field: "asesor_comercial", editor: "input", headerFilter: 'input'},
+                                {title: "comercial_servi", field: "comercial_servi", editor: "input", headerFilter: 'input'},
+                                {title: "aliado_crm", field: "aliado_crm", editor: "input", headerFilter: 'input'},
+                                {title: "ubicacion_exacta", field: "ubicacion_exacta", editor: "input", headerFilter: 'input'},
+                                {title: "departamento", field: "departamento", editor: "input", headerFilter: 'input'},
+                                {title: "estrato", field: "estrato", editor: "input", headerFilter: 'input'},
+                                {title: "tipo_de_venta", field: "tipo_de_venta", editor: "input", headerFilter: 'input'},
+                                {title: "metodo_pago", field: "metodo_pago", editor: "input", headerFilter: 'input'},
+                                {title: "aplica_maratonazo", field: "aplica_maratonazo", editor: "input", headerFilter: 'input'},
+                                {title: "estado_de_consulta", field: "estado_de_consulta", editor: "input", headerFilter: 'input'},
+                                {title: "encargado_consulta", field: "encargado_consulta", editor: "input", headerFilter: 'input'},
+                                {title: "fecha_de_consulta", field: "fecha_de_consulta", editor: "input", headerFilter: 'input'},
+                                {title: "hora_de_consulta", field: "hora_de_consulta", editor: "input", headerFilter: 'input'},
+                                {title: "encargado_validacion", field: "encargado_validacion", editor: "input", headerFilter: 'input'},
+                                {title: "acierta", field: "acierta", editor: "input", headerFilter: 'input'},
+                                {title: "fecha_de_validacion", field: "fecha_de_validacion", editor: "input", headerFilter: 'input'},
+                                {title: "fecha_inicio_gestion", field: "fecha_inicio_gestion", editor: "input", headerFilter: 'input'},
+                                {title: "fecha_hora_lectura_contrato", field: "fecha_hora_lectura_contrato", editor: "input", headerFilter: 'input'},
+                                {title: "Fecha de activación", field: "fecha_va", editor: "input", headerFilter: 'input'},
+                                {title: "motivo_cancelacion", field: "motivo_cancelacion", editor: "input", headerFilter: 'input'},
+                                {title: "directvgo", field: "directvgo", editor: "input", headerFilter: 'input'},
+                                {title: "Fecha de finalización", field: "fecha_finalizacion_new", editor: "input", headerFilter: 'input'},
+                                {title: "Nombre Cliente", field: "cliente_nombre", editor: "input", headerFilter: 'input'},
+                                {title: "Apellido cliente", field: "apellido_cliente", editor: "input", headerFilter: 'input'},
+                                {title: "numero_suscripciones", field: "numero_suscripciones", editor: "input", headerFilter: 'input'},
+                                {title: "producto_net", field: "producto_net", editor: "input", headerFilter: 'input'},
+                                {title: "mercado", field: "mercado", editor: "input", headerFilter: 'input'},
+                                {title: "telefono_1", field: "telefono_1", editor: "input", headerFilter: 'input'},
+                                {title: "telefono_2", field: "telefono_2", editor: "input", headerFilter: 'input'},
+                                {title: "producto_TV", field: "producto_TV", editor: "input", headerFilter: 'input'},
+                                {title: "ciudad", field: "ciudad", editor: "input", headerFilter: 'input'}
+                            ],
+                            ajaxResponse: function (url, params, response) {
+                                var data = [];
+                                for (var item in response) {
+
+                                    var nuevoDato = {
+                                        "id": response[item].id_bitrix, // Puedes usar otra lógica para generar el ID si es necesario
+                                        "text": response[item].id_bitrix
+
+                                    };
+                                    data.push(nuevoDato);
+                                }
+                                $("#mySelect2").select2({
+                                    multiple: true,
+                                    data: data
+                                });
+
+                                return response;
+                            }
+                        });
+                        function guardarInfo() {
+                            var selectedData = table.getSelectedData();
+                            var ventas = [];
+                            for (var item2 in selectedData) {
+                                ventas.push(selectedData[item2].id_bitrix);
+                            }
+                            var confirmacion = false;
+                            Notiflix.Confirm.show(
+                                    'Guardar cambios',
+                                    '¿Esta seguro de guardar los cambios de estas ventas ' + ventas + ' ?',
+                                    'Si',
+                                    'No',
+                                    function okCb() {
+                                        for (var item in selectedData) {
+
+                                            var etapa_id_x = document.getElementById('etapa_id' + selectedData[item].id_bitrix).value;
+
+                                            selectedData[item].etapa_id = etapa_id_x;
+                                            fetch('/guardarinfodtvcol', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify(selectedData[item]) // Convertir los datos a formato JSON
+                                            })
+                                                    .then(response => response.json()) // Parsear la respuesta como JSON
+                                                    .then(data => {
+                                                        iziToast.success({
+                                                            timeout: 2000,
+                                                            title: 'OK',
+                                                            message: 'Venta ' + selectedData[item].id_bitrix + ' actualizada!'
+                                                        });
+
+                                                    })
+                                                    .catch(error => {
+                                                        // Manejar errores
+                                                        console.error('Error:', error);
+                                                    });
+                                        }
+
+                                    },
+                                    function cancelCb() {
+                                        confirmacion = false;
+                                    }
+
+                            );
+                        }
+
+
+                        function filtroIdbitrix() {
+                            var sl = document.getElementById('mySelect2');
+                            iziToast.info({
+                                timeout: 1000,
+                                title: 'Filtro agregado',
+                                message: ''
+                            });
+                            const selected = sl.options[sl.selectedIndex].value;
+                            console.log(selected);
+                        }
+                        var filterid = [];
+                        $("#mySelect2").on("select2:select", function (e) {
+                            filterid.push(parseInt(e.params.data.id));
+                            table.setFilter("id_bitrix", "in", filterid);
+                            console.log(filterid);
+                        });
+                        $("#mySelect2").on("select2:unselect", function (e) {
+                            var indexToRemove = filterid.indexOf(parseInt(e.params.data.id));
+                            filterid.splice(indexToRemove, 1);
+                            table.setFilter("id_bitrix", "in", filterid);
+                            console.log(filterid);
+                        });
+
+        </script>
+    </body>
+
+</html>
